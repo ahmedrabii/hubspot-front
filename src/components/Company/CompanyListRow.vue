@@ -9,7 +9,7 @@ function onSelect() {
 <template>
   <tr @click="onSelect()">
     <th scope="row">{{ row.id }}</th>
-    <td><img src="../../assets/150x150.png" class="rounded float-start" :alt="row.id" /></td>
+    <td><img src="public/assets/150x150.png" class="rounded float-start" :alt="row.id" /></td>
     <td>{{ row.name }}</td>
     <td>{{ row.industry }}</td>
     <td>{{ row.city }}</td>
