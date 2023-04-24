@@ -18,7 +18,7 @@ const { toggleShowSelectedCompany } = companyStore
         <div class="row">
           <div class="col-3">
             <img
-              src="public/assets/150x150.png"
+              :src="'public/assets/150x150.png'"
               class="rounded float-start"
               :alt="selectedCompany.name"
             />
@@ -79,7 +79,7 @@ const { toggleShowSelectedCompany } = companyStore
                     <div class="col-3">
                       <img
                         style="width: 50px"
-                        src="public/assets/50x50.png"
+                        :src="'public/assets/50x50.png'"
                         class="rounded float-start"
                         :alt="contact.firstName"
                       />
