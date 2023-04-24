@@ -1,5 +1,6 @@
 /* eslint-disable no-console  */
 /* eslint-disable no-undef */
+
 import { execa } from 'execa'
 import * as fs from 'fs'
 ;(async () => {
