@@ -9,6 +9,9 @@ export const useCompanyStore = defineStore('company', () => {
   const authStore = useAuthStore()
   const { token } = storeToRefs(authStore)
 
+  const industries = ref<string[]>([])
+  const selectedIndustry = ref<string>('')
+
   const pages = ref<Page[]>([])
   const selectedPage = ref<Page>({ id: 1, selected: true })
 
@@ -23,6 +26,15 @@ export const useCompanyStore = defineStore('company', () => {
   const isLoadingItem = ref(false)
   const hasErrorsItem = ref(false)
 
+  const isLoadingFilter = ref(false)
+
+  async function applyIndusFilter(indus: string) {
+    isLoadingFilter.value = true
+    selectedIndustry.value = indus
+    await init()
+    isLoadingFilter.value = false
+  }
+
   async function selectCompany(company: Company) {
     isLoadingItem.value = true
     hasErrorsItem.value = false
@@ -31,16 +43,12 @@ export const useCompanyStore = defineStore('company', () => {
     if (res === false) {
       hasErrorsItem.value = true
     } else {
-      if (res.status === 200) {
-        const companyObject: Company = res.data
-        if (companyObject.contacts?.length) {
-          const contact = companyObject.contacts[0]
-          companyObject.email = contact.email
-        }
-        selectedCompany.value = companyObject
-      } else {
-        hasErrorsItem.value = true
+      const companyObject: Company = res.data
+      if (companyObject.contacts?.length) {
+        const contact = companyObject.contacts[0]
+        companyObject.email = contact.email
       }
+      selectedCompany.value = companyObject
     }
     isLoadingItem.value = false
   }
@@ -58,7 +66,7 @@ export const useCompanyStore = defineStore('company', () => {
       return element
     })
     if (oldPage.id !== selectedPage.value.id) {
-      init()
+      await init()
     }
   }
 
@@ -66,12 +74,14 @@ export const useCompanyStore = defineStore('company', () => {
     isLoading.value = true
     hasErrors.value = false
     const res = await fetchList()
-    if (res === false) {
+    const resIndus = await fetchIndustry()
+    if (res === false || resIndus === false) {
       isLoading.value = false
       hasErrors.value = true
-    } else if (res.status === 200) {
+    } else {
       hasErrors.value = false
       companies.value = res.data['hydra:member']
+      industries.value = resIndus.data['hydra:member']
       const totalPages = Math.ceil(
         res.data['hydra:totalItems'] / import.meta.env.VITE_API_ITEMS_PER_PAGE
       )
@@ -101,10 +111,30 @@ export const useCompanyStore = defineStore('company', () => {
     }
   }
 
+  async function fetchIndustry() {
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}companies/industry`, {
+        headers: { Authorization: token.value }
+      })
+      if (res.status === 200) {
+        return res
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+
   async function fetchList() {
     try {
+      let indusFilter = ''
+      if (selectedIndustry.value) {
+        indusFilter = `&industry=${selectedIndustry.value}`
+      }
       const res = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}companies?page=${selectedPage.value.id}`,
+        `${import.meta.env.VITE_API_BASE_URL}companies?page=${selectedPage.value.id}${indusFilter}`,
         {
           headers: { Authorization: token.value }
         }
@@ -132,6 +162,9 @@ export const useCompanyStore = defineStore('company', () => {
     isLoading,
     hasErrors,
     isLoadingItem,
-    hasErrorsItem
+    hasErrorsItem,
+    industries,
+    applyIndusFilter,
+    isLoadingFilter
   }
 })
