@@ -14,11 +14,19 @@ function onSectorChange() {
 </script>
 
 <template>
-  <div v-if="(!isLoading || isLoadingFilter) && !hasErrors && industries.length" class="mb-3 row p-3">
+  <div
+    v-if="(!isLoading || isLoadingFilter) && !hasErrors && industries.length"
+    class="mb-3 row p-3"
+  >
     <label for="sector" class="col-3 form-label">Secteur d'activité :</label>
     <div class="col-3">
-      <select v-model="selected" @change="onSectorChange()" id="sector" class="form-select form-select-sm"
-        aria-label="Secteur d'activité">
+      <select
+        v-model="selected"
+        @change="onSectorChange()"
+        id="sector"
+        class="form-select form-select-sm"
+        aria-label="Secteur d'activité"
+      >
         <option selected value="">Secteur d'activité</option>
         <option v-for="industry in industries" :key="industry" :value="industry">
           {{ industry }}
