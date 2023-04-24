@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useCompanyStore } from '@/stores/company'
-import LoadingUI from './UI/LoadingUI.vue';
-import ErrorUI from './UI/ErrorUI.vue';
+import LoadingUI from '../UI/LoadingUI.vue';
+import ErrorUI from '../UI/ErrorUI.vue';
 import { ref } from 'vue';
 const companyStore = useCompanyStore()
 const { industries, isLoading, hasErrors, isLoadingFilter } = storeToRefs(companyStore)

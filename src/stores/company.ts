@@ -31,6 +31,7 @@ export const useCompanyStore = defineStore('company', () => {
   async function applyIndusFilter(indus: string) {
     isLoadingFilter.value = true
     selectedIndustry.value = indus
+    selectedPage.value = { id: 1, selected: true }
     await init()
     isLoadingFilter.value = false
   }
@@ -66,7 +67,9 @@ export const useCompanyStore = defineStore('company', () => {
       return element
     })
     if (oldPage.id !== selectedPage.value.id) {
+      isLoadingFilter.value = true
       await init()
+      isLoadingFilter.value = false
     }
   }
 

@@ -3,9 +3,9 @@ import { onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCompanyStore } from '@/stores/company'
 import CompanyListRow from './CompanyListRow.vue';
-import PaginatorUI from './UI/PaginatorUI.vue';
-import LoadingUI from './UI/LoadingUI.vue';
-import ErrorUI from './UI/ErrorUI.vue';
+import PaginatorUI from '../UI/PaginatorUI.vue';
+import LoadingUI from '../UI/LoadingUI.vue';
+import ErrorUI from '../UI/ErrorUI.vue';
 const companyStore = useCompanyStore()
 const { companies: rows, pages, isLoading, hasErrors } = storeToRefs(companyStore)
 const { init } = companyStore
