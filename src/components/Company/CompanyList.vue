@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useCompanyStore } from '@/stores/company'
-import CompanyListRow from './CompanyListRow.vue';
-import PaginatorUI from '../UI/PaginatorUI.vue';
-import LoadingUI from '../UI/LoadingUI.vue';
-import ErrorUI from '../UI/ErrorUI.vue';
+import CompanyListRow from './CompanyListRow.vue'
+import PaginatorUI from '../UI/PaginatorUI.vue'
+import LoadingUI from '../UI/LoadingUI.vue'
+import ErrorUI from '../UI/ErrorUI.vue'
 const companyStore = useCompanyStore()
 const { companies: rows, pages, isLoading, hasErrors } = storeToRefs(companyStore)
 const { init } = companyStore
@@ -29,7 +29,12 @@ onMounted(() => {
       </tr>
     </thead>
     <tbody>
-      <CompanyListRow @on-select="companyStore.selectCompany($event)" v-for="row in rows" :key="row.id" :row="row" />
+      <CompanyListRow
+        @on-select="companyStore.selectCompany($event)"
+        v-for="row in rows"
+        :key="row.id"
+        :row="row"
+      />
     </tbody>
   </table>
   <div class="row">
