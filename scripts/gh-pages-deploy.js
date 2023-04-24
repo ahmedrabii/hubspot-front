@@ -1,7 +1,7 @@
 /* eslint-disable no-console  */
 /* eslint-disable no-undef */
 import { execa } from 'execa'
-import { fs } from 'fs'
+import * as fs from 'fs'
 ;(async () => {
   try {
     await execa('git', ['checkout', '--orphan', 'gh-pages'])
